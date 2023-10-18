@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductManagerWebAPI.Data;
 using ProductManagerWebAPI.Domain;
+using ProductManagerWebAPI.DTO;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProductManagerWebAPI.Controllers;
@@ -83,35 +84,38 @@ public class ProductsController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<ProductDto> CreateProduct(CreateProductRequest request)
+    public ActionResult<ProductDto> CreateProduct(CreateProductRequestDto request)
     {
-
-        //kontrollera informationen, om det inte är giltigt
-        // returnera 400 bad request
-
-        var product = new Product
+        try
         {
-            Name = request.Name,
-            StockKeepingUnit = request.StockKeepingUnit,
-            Description = request.Description,
-            ImageURL = request.ImageURL,
-            Price = request.Price,
-        };
+            var product = new Product
+            {
+                Name = request.Name,
+                StockKeepingUnit = request.StockKeepingUnit,
+                Description = request.Description,
+                ImageURL = request.ImageURL,
+                Price = request.Price,
+            };
 
-        context.Products.Add(product);
-        context.SaveChanges();
+            context.Products.Add(product);
+            context.SaveChanges();
 
-        var productDto = new ProductDto 
-        { 
-            Id = product.Id,
-            Name = product.Name,
-            StockKeepingUnit = product.StockKeepingUnit,
-            Description = product.Description,
-            ImageURL = product.ImageURL,
-            Price = product.Price,
-        };
+            var productDto = new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                StockKeepingUnit = product.StockKeepingUnit,
+                Description = product.Description,
+                ImageURL = product.ImageURL,
+                Price = product.Price,
+            };
 
-        return Created("", productDto);
+            return Created("", productDto);
+
+        } catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
 
@@ -161,72 +165,20 @@ public class ProductsController : ControllerBase
             return NotFound();
         }
 
-        //kontrollera informationen på samma sätt här som i add product, om det inte är giltigt
-        // returnera 400 bad request
-        product.Name = request.Name;
-        product.StockKeepingUnit = stockKeepingUnit;
-        product.Description = request.Description;
-        product.ImageURL = request.ImageURL;
-        product.Price = request.Price;
+        try
+        {
+            product.Name = request.Name;
+            product.StockKeepingUnit = stockKeepingUnit;
+            product.Description = request.Description;
+            product.ImageURL = request.ImageURL;
+            product.Price = request.Price;
 
-        context.SaveChanges();
+            context.SaveChanges();
+        } catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
 
         return NoContent();
     }
-}
-
-
-// Lägg in felsökning för image url och pris
-public class CreateProductRequest
-{
-    [Required]
-    public string Name { get; set; }
-
-    [Required]
-    public string StockKeepingUnit { get; set; }
-
-    [Required]
-    public string Description { get; set; }
-
-    [Required]
-    public string ImageURL { get; set; }
-
-    [Required]
-    public decimal Price { get; set; }
-}
-
-public class UpdateProductRequest
-{
-    public int Id { get; set; }
-
-    [Required]
-    public string Name { get; set; }
-
-    [Required]
-    public string StockKeepingUnit { get; set; }
-
-    [Required]
-    public string Description { get; set; }
-
-    [Required]
-    public string ImageURL { get; set; }
-
-    [Required]
-    public decimal Price { get; set; }
-}
-
-
-public class ProductDto
-{
-    public int Id { get; set; }
-
-    public string Name { get; set; }
-
-    public string StockKeepingUnit { get; set; }
-
-    public string Description { get; set; }
-
-    public string ImageURL { get; set; }
-
-    public decimal Price { get; set; }
 }
