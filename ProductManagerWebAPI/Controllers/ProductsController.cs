@@ -174,11 +174,11 @@ public class ProductsController : ControllerBase
             product.Price = request.Price;
 
             context.SaveChanges();
+            return NoContent();
+
         } catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
-
-        return NoContent();
     }
 }

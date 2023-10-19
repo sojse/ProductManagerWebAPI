@@ -40,7 +40,7 @@ public class Product
             }
             else
             {
-                throw new ArgumentException("En giltig URL måste anges");
+                throw new ArgumentException("Invalid URL");
             }
         }
     }
