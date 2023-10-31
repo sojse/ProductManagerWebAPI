@@ -46,5 +46,7 @@ public class Product
     }
 
     public required decimal Price { get; set; }
+
+    public ICollection<Category> Categories { get; set; } = new List<Category>();
 }
 

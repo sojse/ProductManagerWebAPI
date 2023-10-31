@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProductManagerWebAPI.Data;
 using ProductManagerWebAPI.Domain;
 using ProductManagerWebAPI.DTO;
@@ -6,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProductManagerWebAPI.Controllers;
 
+[Authorize]
 [Route("[controller]")]
 [ApiController]
 public class ProductsController : ControllerBase
@@ -24,6 +26,8 @@ public class ProductsController : ControllerBase
     /// <returns>Array of products</returns>
     [HttpGet]
     [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public ActionResult<List<ProductDto>> GetProducts([FromQuery] string? name)
     {
         IEnumerable<Product> products = name is not null
@@ -52,6 +56,7 @@ public class ProductsController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public ActionResult<ProductDto> GetProduct(string stockKeepingUnit)
     {
         var product = context.Products.FirstOrDefault( x => x.StockKeepingUnit == stockKeepingUnit);
@@ -79,11 +84,14 @@ public class ProductsController : ControllerBase
     /// </summary>
     /// <param name="request">Product</param>
     /// <returns>New product</returns>
+    [Authorize(Roles = "Administrator")]
     [HttpPost]
     [Consumes("application/json")]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public ActionResult<ProductDto> CreateProduct(CreateProductRequestDto request)
     {
         try
@@ -123,10 +131,14 @@ public class ProductsController : ControllerBase
     /// Delete product
     /// </summary>
     /// <param name="stockKeepingUnit">SKU</param>
+    [Authorize(Roles = "Administrator")]
     [HttpDelete("{stockKeepingUnit}")]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteMovie(string stockKeepingUnit)
+    public ActionResult DeleteProduct(string stockKeepingUnit)
     {
         var product = context.Products.FirstOrDefault(x => x.StockKeepingUnit == stockKeepingUnit);
 
@@ -147,10 +159,15 @@ public class ProductsController : ControllerBase
     /// <param name="stockKeepingUnit">SKU</param>
     /// <param name="request">Information about product</param>
     /// <returns></returns>
+    [Authorize(Roles = "Administrator")]
     [HttpPut("{stockKeepingUnit}")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult UpdateProduct(string stockKeepingUnit, UpdateProductRequest request)
     {
         if(request.StockKeepingUnit.Equals(stockKeepingUnit))
