@@ -6,7 +6,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configure the application to use JWT authentication
 builder.Services
   .AddAuthentication()
   .AddJwtBearer(options =>
@@ -23,12 +23,14 @@ builder.Services
 
 builder.Services.AddCors();
 
+// Adds the database context
 builder.Services.AddDbContext<ApplicationDbContext>
     (options => options.UseSqlServer(
         builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddControllers();
 
+#region Configure Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -71,9 +73,11 @@ builder.Services.AddSwaggerGen(options =>
   });
 });
 
+#endregion
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

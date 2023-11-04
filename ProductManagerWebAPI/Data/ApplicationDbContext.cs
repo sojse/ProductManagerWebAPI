@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProductManagerWebAPI.Domain;
+using ProductManagerWebAPI.Models.Domain;
 
 namespace ProductManagerWebAPI.Data;
 

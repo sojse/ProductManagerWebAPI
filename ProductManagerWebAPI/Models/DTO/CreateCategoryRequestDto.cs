@@ -1,9 +1,9 @@
-﻿using ProductManagerWebAPI.Domain;
+﻿using ProductManagerWebAPI.Models.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace ProductManagerWebAPI.DTO
+namespace ProductManagerWebAPI.Models.DTO
 {
-    public class CreateCategoryDto
+    public class CreateCategoryRequestDto
     {
 
         [Required]

@@ -1,8 +1,4 @@
-﻿using ProductManagerWebAPI.Domain;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-namespace ProductManagerWebAPI.DTO
+﻿namespace ProductManagerWebAPI.Models.DTO
 {
     public class CategoryDto
     {

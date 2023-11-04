@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace ProductManagerWebAPI.Domain;
+namespace ProductManagerWebAPI.Models.Domain;
 
 [Index(nameof(Name), IsUnique = true)]
 public class Role

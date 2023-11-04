@@ -1,21 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace ProductManagerWebAPI.Models.DTO;
 
-namespace ProductManagerWebAPI.DTO;
-
-public class CreateProductRequestDto
+public class ProductDto
 {
-    [Required]
+    public int Id { get; set; }
+
     public string Name { get; set; }
 
-    [Required]
     public string StockKeepingUnit { get; set; }
 
-    [Required]
     public string Description { get; set; }
 
-    [Required]
     public string ImageURL { get; set; }
 
-    [Required]
     public decimal Price { get; set; }
 }

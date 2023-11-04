@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProductManagerWebAPI.Data;
-using ProductManagerWebAPI.Domain;
-using ProductManagerWebAPI.DTO;
+using ProductManagerWebAPI.Models.Domain;
+using ProductManagerWebAPI.Models.DTO;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -78,6 +77,7 @@ public class AuthController : ControllerBase
 
         var jwtTokenHandler = new JwtSecurityTokenHandler();
 
+        // Creates the token
         var jwtSecurityToken = jwtTokenHandler.CreateJwtSecurityToken(tokenDescriptor);
 
         return jwtTokenHandler.WriteToken(jwtSecurityToken);

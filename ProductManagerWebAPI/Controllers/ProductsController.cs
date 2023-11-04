@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductManagerWebAPI.Data;
-using ProductManagerWebAPI.Domain;
-using ProductManagerWebAPI.DTO;
-using System.ComponentModel.DataAnnotations;
+using ProductManagerWebAPI.Models.Domain;
+using ProductManagerWebAPI.Models.DTO;
 
 namespace ProductManagerWebAPI.Controllers;
 
@@ -170,7 +169,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult UpdateProduct(string stockKeepingUnit, UpdateProductRequest request)
     {
-        if(request.StockKeepingUnit.Equals(stockKeepingUnit))
+        if(!request.StockKeepingUnit.Equals(stockKeepingUnit))
         {
             return BadRequest("SKU does not match");
         }

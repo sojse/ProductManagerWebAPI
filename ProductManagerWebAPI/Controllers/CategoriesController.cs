@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductManagerWebAPI.Data;
-using ProductManagerWebAPI.Domain;
-using ProductManagerWebAPI.DTO;
+using ProductManagerWebAPI.Models.Domain;
+using ProductManagerWebAPI.Models.DTO;
 
 namespace ProductManagerWebAPI.Controllers;
 
@@ -63,7 +63,7 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public ActionResult<CategoryDto> CreateCategory(CreateCategoryDto request)
+    public ActionResult<CategoryDto> CreateCategory(CreateCategoryRequestDto request)
     {
         try
         {
@@ -90,12 +90,10 @@ public class CategoriesController : ControllerBase
         }
     }
 
-    // POST för att skapa en koppling mellan produkt och kategori POST /categories/{id}/products
     /// <summary>
     /// Add new product to category
     /// </summary>
-    /// <param name="request">Category</param>
-    /// <returns>New category</returns>
+    /// <param name="request">Category ID and the product to add</param>
     [Authorize(Roles = "Administrator")]
     [HttpPost("{id}/products")]
     [Produces("application/json")]

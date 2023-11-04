@@ -1,4 +1,4 @@
-﻿namespace ProductManagerWebAPI.DTO;
+﻿namespace ProductManagerWebAPI.Models.DTO;
 
 public class TokenDto
 {

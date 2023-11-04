@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProductManagerWebAPI.DTO;
-public class UpdateProductRequest
-{
-    public int Id { get; set; }
+namespace ProductManagerWebAPI.Models.DTO;
 
+public class CreateProductRequestDto
+{
     [Required]
     public string Name { get; set; }
 

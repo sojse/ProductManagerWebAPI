@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProductManagerWebAPI.DTO;
+namespace ProductManagerWebAPI.Models.DTO;
 
 public class AuthenticateRequestDto
 {

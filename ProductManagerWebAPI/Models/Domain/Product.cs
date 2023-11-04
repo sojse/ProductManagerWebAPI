@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 
-namespace ProductManagerWebAPI.Domain;
+namespace ProductManagerWebAPI.Models.Domain;
 
 [Index(nameof(StockKeepingUnit), IsUnique = true)]
 public class Product
